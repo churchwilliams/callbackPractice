@@ -1,4 +1,4 @@
-/* In this repo your job is to write functions to make each function call work properly.
+/* In this repo your job is to write functions (callbacks) to make each function call work properly.
 Below is a sample problem 
 
   //code here for sayHi
@@ -8,7 +8,7 @@ Below is a sample problem
    });
    
 
-and what you should write is the favNum function that makes the code above work, 
+//and what you should write is the sayHi function that makes the code above work, 
     
     
    var sayHi = function(str, cb){
@@ -18,19 +18,25 @@ and what you should write is the favNum function that makes the code above work,
    sayHi('Hi Katie', function(thingToSay){
       alert(thingToSay); //should alert ('Hi Katie')'
    });
+
+   callThis(myVar, function(){alert('whud up kid?');});
+
     
     
 */
 
-
-
-  //Code Here for first
+  //Code Here for first //meditate on this one line by line
   
 var names = ['Tyler', 'Cahlan', 'Ryan', 'Colt', 'Tyler', 'Blaine', 'Cahlan'];
+
+var first = function(array, cbFunc) {
+  var firstName = array[0];
+  cbFunc(firstName);
+};
+
 first(names, function(firstName){
   console.log('The first name in names is ', firstName)
 });
-
 
 
 /* NEXT PROBLEM ---- NEXT PROBLEM ---- NEXT PROBLEM ---- NEXT PROBLEM */
@@ -38,9 +44,13 @@ first(names, function(firstName){
 
 
 
-  //Code Here for last
+var last = function(array, cbFunc) {
+  var lastName = array[array.length -1];
+  cbFunc(lastName);
+};
 
 var names = ['Tyler', 'Cahlan', 'Ryan', 'Colt', 'Tyler', 'Blaine', 'Cahlan'];
+
 last(names, function(lastName){
   console.log('The last name in names is ', lastName);
 });
@@ -58,9 +68,14 @@ last(names, function(lastName){
 
   //Code Here for multiply
 
+  var multiply = function(num1, num2, cbFunc) {
+    var answer = num1 * num2;
+    cbFunc(answer);
+  };
+
 multiply(4, 3, function(answer){
   console.log('The answer is ', answer); //should console.log 12
-})
+});
 
 
 
@@ -74,7 +89,24 @@ multiply(4, 3, function(answer){
 
   //Code Here for contains
 
+var contains = function(array, name, cbFunc) {
+  var result;
+  for (var i =0; i < array.length; i++){
+    if (array[i] === name) {
+      result = true;
+      break;
+    }
+    else {
+      result = false;
+    }
+  }
+  cbFunc(result);
+};
+
+------
+
 var names = ['Tyler', 'Cahlan', 'Ryan', 'Colt', 'Tyler', 'Blaine', 'Cahlan'];
+
 contains(names, 'Colt', function(result){
   if(result === true){
     console.log('Colt is in the array');
@@ -94,7 +126,21 @@ contains(names, 'Colt', function(result){
 
     //Code Here for uniq
 
+var uniq = function(names, cb){
+  var slicedArray = names.slice();
+  for (var i = 0; i < slicedArray.length; i++) {
+    for (var j = i + 1; j < slicedArray.length; j++){
+      if (slicedArray[i] === slicedArray[j]) {
+        slicedArray.splice(j, 1);
+        --j;
+      }
+    }
+  }
+  cb(slicedArray);
+};
+
 var names = ['Tyler', 'Cahlan', 'Ryan', 'Colt', 'Tyler', 'Blaine', 'Cahlan'];
+
 uniq(names, function(uniqArr){
   console.log('The new names array with all the duplicate items removed is ', uniqArr);
 });
@@ -110,7 +156,15 @@ uniq(names, function(uniqArr){
 
     //Code Here for each
 
+var each = function(array, cbFunc) {
+  for (var i = 0; i < array.length; i++) {
+    cbFunc(array[i], i);
+  }
+};
+
+//----
 var names = ['Tyler', 'Cahlan', 'Ryan', 'Colt', 'Tyler', 'Blaine', 'Cahlan'];
+
 each(names, function(item, indice){
   console.log('The item in the ' + indice + ' position is ' + item)
 });
@@ -126,6 +180,15 @@ each(names, function(item, indice){
 
 
  //code here for getUserById
+
+ var getUserById = function(array, id, cbFunc) {
+  for (var i = 0; i < array.length; i++){
+    if (array[i].id === id) {
+      cbFunc(array[i]);
+      break;
+    }
+  }
+ };
 
 var users = [
   {
@@ -147,6 +210,8 @@ var users = [
     address: '192 East 32 North'
   },
 ];
+
+//---
 
 getUserById(users, '16t', function(user){
   console.log('The user with the id 16t has the email of ' + user.email + ' the name of ' + user.name + ' and the address of ' + user.address); 
